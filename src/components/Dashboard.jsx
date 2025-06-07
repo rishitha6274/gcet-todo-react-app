@@ -1,72 +1,53 @@
-import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { TodoContext } from "../App";
+import { useState, useEffect } from "react";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
 export default function Dashboard() {
-  const { user, setUser } = useContext(TodoContext);
   const [todos, setTodos] = useState([]);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
-    if (user?.email) {
-      fetchTodos();
-    }
-  }, [user]);
+    console.log("Fetching todos...");
+    fetchTodos();
+  }, []);
 
   const fetchTodos = async () => {
     try {
-      const res = await fetch(`${API_BASE}/todos/${user.email}`);
+      const res = await fetch(`${API_BASE}/todos/all`);
       const data = await res.json();
-      if (res.ok) {
-        setTodos(data);
-      } else {
-        setError(data.message || "Failed to fetch todos");
-      }
+      console.log("Received data:", data);
+      if (res.ok) setTodos(data);
+      else setError(data.message);
     } catch {
       setError("Error fetching todos");
     }
   };
 
   const addTodo = async (task) => {
-    try {
-      const res = await fetch(`${API_BASE}/todos`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: user.email, task }),
-      });
-      if (res.ok) {
-        const newTodo = await res.json();
-        setTodos((prev) => [...prev, newTodo]);
-      } else {
-        const err = await res.json();
-        setError(err.message || "Failed to add todo");
-      }
-    } catch {
-      setError("Error adding todo");
+  try {
+    const res = await fetch(`${API_BASE}/todos/new`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ task }), 
+    });
+
+    if (res.ok) {
+      const newTodo = await res.json();
+      setTodos((prev) => [...prev, newTodo]);
+    } else {
+      const err = await res.json();
+      setError(err.message || "Failed to add todo");
     }
-  };
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("email");
-    setUser(null);
-    navigate("/");
-  };
-
+  } catch {
+    setError("Error adding todo");
+  }
+};
   return (
-    <div className="container" style={{ maxWidth: 600, margin: "auto", padding: 20 }}>
-      <h2>Welcome, {user?.name || user?.email}</h2>
-      <button onClick={logout} style={{ marginBottom: 20 }}>
-        Logout
-      </button>
-
+    <div style={{ maxWidth: 600, margin: "auto", padding: 20 }}>
+      <h2>To-Do List</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
-
       <TodoForm addTodo={addTodo} />
       <TodoList todos={todos} />
     </div>
