@@ -35,7 +35,7 @@ export default function Login() {
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: "auto", padding: 20 }}>
+    <div className="container" style={{ maxWidth: 400, margin: "auto", padding: 20 }}>
       <h2>Login</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <input

@@ -33,7 +33,7 @@ export default function Register() {
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: "auto", padding: 20 }}>
+    <div className="container" style={{ maxWidth: 400, margin: "auto", padding: 20 }}>
       <h2>Register</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {success && <p style={{ color: "green" }}>{success}</p>}

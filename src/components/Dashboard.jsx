@@ -59,7 +59,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div style={{ maxWidth: 600, margin: "auto", padding: 20 }}>
+    <div className="container" style={{ maxWidth: 600, margin: "auto", padding: 20 }}>
       <h2>Welcome, {user?.name || user?.email}</h2>
       <button onClick={logout} style={{ marginBottom: 20 }}>
         Logout

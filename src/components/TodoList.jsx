@@ -2,7 +2,7 @@ export default function TodoList({ todos }) {
   return (
     <ul style={{ listStyle: "none", padding: 0 }}>
       {todos.map((todo) => (
-        <li key={todo._id} style={{ marginBottom: 10 }}>
+        <li className="todo-item" key={todo._id} style={{ marginBottom: 10 }}>
           <input
             type="checkbox"
             checked={todo.completed}

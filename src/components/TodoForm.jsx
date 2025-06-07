@@ -11,7 +11,7 @@ export default function TodoForm({ addTodo }) {
   };
 
   return (
-    <form onSubmit={submitHandler} style={{ marginBottom: 20 }}>
+    <form className="container" onSubmit={submitHandler} style={{ marginBottom: 20 }}>
       <input
         type="text"
         placeholder="Add new task"
