@@ -19,9 +19,29 @@ export default function TodoForm({ addTodo }) {
         onChange={(e) => setTask(e.target.value)}
         style={{ width: "80%", padding: "8px" }}
       />
-      <button type="submit" style={{ padding: "8px 16px", marginLeft: 10 }}>
-        Add
-      </button>
+      <button
+  type="submit"
+  style={{
+    padding: "10px 20px",
+    marginLeft: 10,
+    background: "linear-gradient(to right, #00b4d8, #0096c7)",
+    color: "#fff",
+    fontWeight: "bold",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    transition: "background 0.3s ease",
+  }}
+  onMouseOver={(e) =>
+    (e.target.style.background = "linear-gradient(to right, #0096c7, #0077b6)")
+  }
+  onMouseOut={(e) =>
+    (e.target.style.background = "linear-gradient(to right, #00b4d8, #0096c7)")
+  }
+>
+  Add
+</button>
+
     </form>
   );
 }

@@ -9,7 +9,6 @@ export default function Dashboard() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    console.log("Fetching todos...");
     fetchTodos();
   }, []);
 
@@ -17,7 +16,6 @@ export default function Dashboard() {
     try {
       const res = await fetch(`${API_BASE}/todos/all`);
       const data = await res.json();
-      console.log("Received data:", data);
       if (res.ok) setTodos(data);
       else setError(data.message);
     } catch {
@@ -26,63 +24,73 @@ export default function Dashboard() {
   };
 
   const addTodo = async (task) => {
-  try {
-    const res = await fetch(`${API_BASE}/todos/new`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ task }), 
-    });
+    try {
+      const res = await fetch(`${API_BASE}/todos/new`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ task }),
+      });
 
-    if (res.ok) {
-      const newTodo = await res.json();
-      setTodos((prev) => [...prev, newTodo]);
-    } else {
-      const err = await res.json();
-      setError(err.message || "Failed to add todo");
+      if (res.ok) {
+        const newTodo = await res.json();
+        setTodos((prev) => [...prev, newTodo]);
+      } else {
+        const err = await res.json();
+        setError(err.message || "Failed to add todo");
+      }
+    } catch {
+      setError("Error adding todo");
     }
-  } catch {
-    setError("Error adding todo");
-  }
-};
+  };
 
-const toggleComplete = async (id, completed) => {
-  try {
-    const res = await fetch(`${API_BASE}/todos/update/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ completed: !completed }),
-    });
-    const updatedTodo = await res.json();
-    setTodos((prev) =>
-      prev.map((todo) => (todo._id === id ? updatedTodo : todo))
-    );
-  } catch (err) {
-    console.error("Toggle error:", err);
-    setError("Failed to toggle todo");
-  }
-};
-
-const deleteTodo = async (id) => {
-  try {
-    const res = await fetch(`${API_BASE}/todos/delete/${id}`, {
-      method: "DELETE",
-    });
-    if (res.ok) {
-      setTodos((prev) => prev.filter((todo) => todo._id !== id));
-    } else {
-      const err = await res.json();
-      setError(err.message);
+  const toggleComplete = async (id, completed) => {
+    try {
+      const res = await fetch(`${API_BASE}/todos/update/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ completed: !completed }),
+      });
+      const updatedTodo = await res.json();
+      setTodos((prev) =>
+        prev.map((todo) => (todo._id === id ? updatedTodo : todo))
+      );
+    } catch (err) {
+      setError("Failed to toggle todo");
     }
-  } catch (err) {
-    console.error("Delete error:", err);
-    setError("Failed to delete todo");
-  }
-};
+  };
+
+  const deleteTodo = async (id) => {
+    try {
+      const res = await fetch(`${API_BASE}/todos/delete/${id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setTodos((prev) => prev.filter((todo) => todo._id !== id));
+      } else {
+        const err = await res.json();
+        setError(err.message);
+      }
+    } catch (err) {
+      setError("Failed to delete todo");
+    }
+  };
 
   return (
-    <div style={{ maxWidth: 600, margin: "auto", padding: 20 }}>
-      <h2>To-Do List</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div
+      style={{
+        maxWidth: 600,
+        margin: "auto",
+        padding: 20,
+        backgroundColor: "#e0f7ff",
+        borderRadius: 12,
+        boxShadow: "0 0 12px rgba(0,0,0,0.1)",
+        marginTop: 50,
+      }}
+    >
+        <h1 style={{ color: "#0077b6"}}>Helloo :) </h1>
+        <h2>Get your tasks done !</h2>
+      <h2 style={{ color: "#0077b6", textAlign: "center" }}>📝 To-Do List</h2>
+      {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
       <TodoForm addTodo={addTodo} />
       <TodoList todos={todos} toggleComplete={toggleComplete} deleteTodo={deleteTodo} />
     </div>
