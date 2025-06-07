@@ -1,4 +1,4 @@
-body {
+/* body {
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(to bottom, #fff6fa, #fdecef);
   color: #333;
@@ -44,7 +44,7 @@ button {
 }
 
 button:hover {
-  background-color: rgb(84, 197, 235);
+  background-color: lightblue;
 }
 
 .todo-item {
@@ -80,4 +80,4 @@ a:hover {
   color: green;
   font-size: 14px;
   margin-bottom: 10px;
-}
+} */
